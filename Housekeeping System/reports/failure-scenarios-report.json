@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-10-22T16:33:22.393Z",
+  "generatedAt": "2026-10-22T16:38:33.658Z",
   "suite": "housekeeping-failure-scenarios",
   "summary": {
-    "total": 12,
-    "passed": 9,
-    "failed": 3
+    "total": 14,
+    "passed": 14,
+    "failed": 0
   },
   "results": [
     {
       "name": "Health check: http://localhost:3201/health",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.234Z",
+      "timestamp": "2026-10-22T16:21:11.162Z",
       "expectedStatus": 200,
       "actualStatus": 200,
       "method": "GET",
@@ -18,13 +18,13 @@
       "response": {
         "status": "ok",
         "service": "reservation-service",
-        "time": "2026-10-22T16:33:22.220Z"
+        "time": "2026-10-22T16:21:11.146Z"
       }
     },
     {
       "name": "Health check: http://localhost:3202/health",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.247Z",
+      "timestamp": "2026-10-22T16:21:11.176Z",
       "expectedStatus": 200,
       "actualStatus": 200,
       "method": "GET",
@@ -32,13 +32,13 @@
       "response": {
         "status": "ok",
         "service": "room-service",
-        "time": "2026-10-22T16:33:22.241Z"
+        "time": "2026-10-22T16:21:11.170Z"
       }
     },
     {
       "name": "Health check: http://localhost:3203/health",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.255Z",
+      "timestamp": "2026-10-22T16:21:11.194Z",
       "expectedStatus": 200,
       "actualStatus": 200,
       "method": "GET",
@@ -46,13 +46,13 @@
       "response": {
         "status": "ok",
         "service": "task-service",
-        "time": "2026-10-22T16:33:22.252Z"
+        "time": "2026-10-22T16:21:11.187Z"
       }
     },
     {
       "name": "Health check: http://localhost:3204/health",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.264Z",
+      "timestamp": "2026-10-22T16:21:11.210Z",
       "expectedStatus": 200,
       "actualStatus": 200,
       "method": "GET",
@@ -60,18 +60,18 @@
       "response": {
         "status": "ok",
         "service": "notification-service",
-        "time": "2026-10-22T16:33:22.259Z"
+        "time": "2026-10-22T16:21:11.203Z"
       }
     },
     {
       "name": "Reservation validation",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.276Z",
+      "timestamp": "2026-10-22T16:21:11.250Z",
       "expectedStatus": 400,
       "actualStatus": 400,
       "method": "POST",
       "url": "http://localhost:3201/api/v1/reservations",
-      "durationMs": 11,
+      "durationMs": 39,
       "request": {
         "guestName": "",
         "roomType": "",
@@ -85,14 +85,14 @@
     },
     {
       "name": "Reservation idempotency conflict",
-      "status": "FAIL",
-      "timestamp": "2026-10-22T16:33:22.296Z",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:21:11.593Z",
       "expectedStatus": 409,
       "actualStatus": 409,
       "method": "POST",
       "url": "http://localhost:3201/api/v1/reservations",
       "firstResponse": {
-        "message": "Reservation replayed",
+        "message": "Reservation created",
         "reservation": {
           "id": "c1a34d5f-1825-4411-813d-cccab379ba69",
           "guestName": "Conflict Guest",
@@ -104,6 +104,24 @@
           "idempotencyKey": "reservation-conflict-001",
           "roomHoldId": "b5935a66-4a32-46f7-a3c6-a85f4eeaca14",
           "createdAt": "2026-10-22T16:21:11.566Z"
+        },
+        "task": {
+          "id": "004e59a1-70d6-46e5-b677-01ec67640760",
+          "reservationId": "c1a34d5f-1825-4411-813d-cccab379ba69",
+          "roomType": "STANDARD",
+          "taskType": "room-cleaning",
+          "assignedStaff": "Housekeeper Team A",
+          "status": "PENDING",
+          "idempotencyKey": "task-c1a34d5f-1825-4411-813d-cccab379ba69",
+          "requestHash": "5b693b42fe523a36e8cad59f30b4eecb97586ac1104e44d6f7c794b2fc9e6d9a",
+          "createdAt": "2026-10-22T16:21:11.420Z"
+        },
+        "notification": {
+          "id": "4c4a7afb-ee7e-4755-85a5-1455f4686cfd",
+          "taskId": "004e59a1-70d6-46e5-b677-01ec67640760",
+          "message": "Room cleaning requested for Conflict Guest",
+          "status": "SENT",
+          "createdAt": "2026-10-22T16:21:11.555Z"
         }
       },
       "secondResponse": {
@@ -114,12 +132,12 @@
     {
       "name": "Room hold validation",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.305Z",
+      "timestamp": "2026-10-22T16:21:11.610Z",
       "expectedStatus": 400,
       "actualStatus": 400,
       "method": "POST",
       "url": "http://localhost:3202/api/v1/room-holds",
-      "durationMs": 8,
+      "durationMs": 16,
       "request": {
         "roomType": "",
         "reservationId": ""
@@ -131,15 +149,21 @@
     },
     {
       "name": "Room slot capacity conflict",
-      "status": "FAIL",
-      "timestamp": "2026-10-22T16:33:22.320Z",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:21:11.709Z",
       "expectedStatus": 409,
       "actualStatus": 409,
       "method": "POST",
       "url": "http://localhost:3202/api/v1/cleaning-slots/reserve",
       "firstResponse": {
-        "error": "Conflict",
-        "message": "No slots available for this shift."
+        "message": "Cleaning slot reserved",
+        "shift": {
+          "id": "capacity-failure-shift-slot-1792686071635",
+          "shiftId": "capacity-failure-shift",
+          "capacity": 2,
+          "reserved": 2,
+          "updatedAt": "2026-10-22T16:21:11.651Z"
+        }
       },
       "secondResponse": {
         "error": "Conflict",
@@ -149,12 +173,12 @@
     {
       "name": "Task validation",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.327Z",
+      "timestamp": "2026-10-22T16:21:11.746Z",
       "expectedStatus": 400,
       "actualStatus": 400,
       "method": "POST",
       "url": "http://localhost:3203/api/v1/tasks",
-      "durationMs": 6,
+      "durationMs": 35,
       "request": {
         "reservationId": "",
         "roomType": "",
@@ -167,14 +191,14 @@
     },
     {
       "name": "Task idempotency conflict",
-      "status": "FAIL",
-      "timestamp": "2026-10-22T16:33:22.347Z",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:21:11.881Z",
       "expectedStatus": 409,
       "actualStatus": 409,
       "method": "POST",
       "url": "http://localhost:3203/api/v1/tasks",
       "firstResponse": {
-        "message": "Task replayed",
+        "message": "Housekeeping task created",
         "task": {
           "id": "9031b256-973d-442c-ac74-12bd64837720",
           "reservationId": "task-res-001",
@@ -185,6 +209,13 @@
           "idempotencyKey": "task-conflict-001",
           "requestHash": "8eff2d24961f22a48bac0c4935e5e6372d778e67d57fbe57a9d3e5e5fd4bf21d",
           "createdAt": "2026-10-22T16:21:11.794Z"
+        },
+        "notification": {
+          "id": "ff50f86f-aac9-4fb5-b4b9-409ce77d8b63",
+          "taskId": "9031b256-973d-442c-ac74-12bd64837720",
+          "message": "Housekeeping task created: room-cleaning",
+          "status": "SENT",
+          "createdAt": "2026-10-22T16:21:11.826Z"
         }
       },
       "secondResponse": {
@@ -193,9 +224,22 @@
       }
     },
     {
+      "name": "Invalid task status rejected",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:21:12.004Z",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "method": "PATCH",
+      "url": "http://localhost:3203/api/v1/tasks/0189e899-e6ef-4b6e-80cd-7e3485373c17/status",
+      "response": {
+        "error": "Validation failed",
+        "message": "Status is required and must be one of: PENDING, IN_PROGRESS, COMPLETED, CANCELLED"
+      }
+    },
+    {
       "name": "Task lookup not found",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.358Z",
+      "timestamp": "2026-10-22T16:21:12.022Z",
       "expectedStatus": 404,
       "actualStatus": 404,
       "method": "GET",
@@ -208,12 +252,12 @@
     {
       "name": "Notification validation",
       "status": "PASS",
-      "timestamp": "2026-10-22T16:33:22.367Z",
+      "timestamp": "2026-10-22T16:21:12.055Z",
       "expectedStatus": 400,
       "actualStatus": 400,
       "method": "POST",
       "url": "http://localhost:3204/api/v1/notifications",
-      "durationMs": 8,
+      "durationMs": 23,
       "request": {
         "taskId": "",
         "message": ""
@@ -221,6 +265,29 @@
       "response": {
         "error": "Validation failed",
         "message": "taskId and message are required."
+      }
+    },
+    {
+      "name": "Valid task status update",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:21:12.172Z",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "method": "PATCH",
+      "url": "http://localhost:3203/api/v1/tasks/64606779-78da-4e63-b911-bbbd14a53f6b/status",
+      "response": {
+        "message": "Task status updated",
+        "task": {
+          "id": "64606779-78da-4e63-b911-bbbd14a53f6b",
+          "reservationId": "task-status-rsv-002",
+          "roomType": "STANDARD",
+          "taskType": "room-cleaning",
+          "assignedStaff": "Housekeeper Team B",
+          "status": "IN_PROGRESS",
+          "idempotencyKey": "task-status-valid-001",
+          "requestHash": "4043e192e160e53140f30e3b26d55bf7d7f7fd43616d067ae964c8facf3e62dd",
+          "createdAt": "2026-10-22T16:21:12.086Z"
+        }
       }
     }
   ]

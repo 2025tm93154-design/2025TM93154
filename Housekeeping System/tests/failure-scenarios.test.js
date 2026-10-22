@@ -23,12 +23,12 @@ function wait(ms) {
 function terminateStaleProjectProcesses() {
   try {
     if (process.platform === 'win32') {
-      const projectMarker = root.replace(/\\/g, '\\\\');
+      const escapedRoot = root.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
       const command = [
         'powershell',
         '-NoProfile',
         '-Command',
-        `Get-CimInstance Win32_Process -Filter "name = 'node.exe'" | Where-Object { $_.CommandLine -match '${projectMarker}' -and $_.ProcessId -ne ${process.pid} } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }`,
+        `Get-CimInstance Win32_Process -Filter "name = 'node.exe'" | Where-Object { $_.ProcessId -ne ${process.pid} -and (($_.CommandLine -match [regex]::Escape('${root}')) -or ($_.CommandLine -match [regex]::Escape('server.js')) -or ($_.CommandLine -match [regex]::Escape('${escapedRoot}'))) } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }`,
       ];
       execSync(command.join(' '), { stdio: 'ignore' });
     } else {
