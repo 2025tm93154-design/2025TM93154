@@ -1,0 +1,17 @@
+{
+  "name": "housekeeping-system",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node scripts/start-all.js",
+    "stop": "node scripts/stop-all.js",
+    "test": "node --test tests/*.test.js",
+    "test:verify": "node scripts/verify-flow.js",
+    "test:failures": "node --test tests/failure-scenarios.test.js",
+    "report": "node scripts/service-report.js",
+    "ui": "node ui/server.js",
+    "challenge-1": "node scripts/challenge-1-concurrency.js",
+    "challenge-2": "node scripts/challenge-2-idempotency.js",
+    "challenge-3": "node scripts/challenge-3-holds.js"
+  }
+}

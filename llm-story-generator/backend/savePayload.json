@@ -1,0 +1,8 @@
+{
+  "id": "test-story-1",
+  "title": "Test Story",
+  "content": "Once upon a test, the hero stepped into the debug forest.\nThey sought the legendary bug and hoped it would be easy to fix.",
+  "models": ["local-mock"],
+  "character_id": "test-hero",
+  "draft_text": "Once upon a test, the hero stepped into the debug forest.\nThey sought the legendary bug and hoped it would be easy to fix."
+}

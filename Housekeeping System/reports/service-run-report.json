@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-10-22T11:41:47.322Z",
+  "overallStatus": "success",
+  "services": [
+    {
+      "name": "reservation-service",
+      "url": "http://localhost:3201/health",
+      "status": "success",
+      "statusCode": 200,
+      "body": "{\"status\":\"ok\",\"service\":\"reservation-service\",\"time\":\"2026-10-22T11:41:47.207Z\"}"
+    },
+    {
+      "name": "room-service",
+      "url": "http://localhost:3202/health",
+      "status": "success",
+      "statusCode": 200,
+      "body": "{\"status\":\"ok\",\"service\":\"room-service\",\"time\":\"2026-10-22T11:41:47.216Z\"}"
+    },
+    {
+      "name": "task-service",
+      "url": "http://localhost:3203/health",
+      "status": "success",
+      "statusCode": 200,
+      "body": "{\"status\":\"ok\",\"service\":\"task-service\",\"time\":\"2026-10-22T11:41:47.213Z\"}"
+    },
+    {
+      "name": "notification-service",
+      "url": "http://localhost:3204/health",
+      "status": "success",
+      "statusCode": 200,
+      "body": "{\"status\":\"ok\",\"service\":\"notification-service\",\"time\":\"2026-10-22T11:41:47.213Z\"}"
+    }
+  ],
+  "endToEnd": {
+    "name": "reservation-flow",
+    "status": "success",
+    "statusCode": 201,
+    "body": "{\"message\":\"Reservation created\",\"reservation\":{\"id\":\"5c268eda-a461-4077-a454-3c6ccbf565c6\",\"guestName\":\"UI Guest\",\"roomType\":\"STANDARD\",\"checkInDate\":\"2026-11-25\",\"nights\":1,\"status\":\"CONFIRMED\",\"requestHash\":\"fe796ff04a5e209c42d0251caa1c72e40bb46fd2b5a6cc39c4335bf9e11db087\",\"idempotencyKey\":\"report-1792669307239\",\"roomHoldId\":\"aff0b57e-9150-409e-9a17-ef312c355b58\",\"createdAt\":\"2026-10-22T11:41:47.312Z\"},\"task\":{\"id\":\"2307f899-2ccb-4890-8180-d36bcd198c87\",\"reservationId\":\"5c268eda-a461-4077-a454-3c6ccbf565c6\",\"roomType\":\"STANDARD\",\"taskType\":\"room-cleaning\",\"assignedStaff\":\"Housekeeper Team A\",\"status\":\"PENDING\",\"idempotencyKey\":\"task-5c268eda-a461-4077-a454-3c6ccbf565c6\",\"requestHash\":\"f81cfdb082595dd911c0a012caa25275d5c01c9b819cc45f816a469b47592ff7\",\"createdAt\":\"2026-10-22T11:41:47.279Z\"},\"notification\":{\"id\":\"e04c68df-547e-492f-bd56-2d226cea0852\",\"taskId\":\"2307f899-2ccb-4890-8180-d36bcd198c87\",\"message\":\"Room cleaning requested for UI Guest\",\"status\":\"SENT\",\"createdAt\":\"2026-10-22T11:41:47.307Z\"}}"
+  }
+}

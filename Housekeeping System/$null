@@ -1,0 +1,2 @@
+ERROR: The process with PID 26780 (child process of PID 30912) could not be terminated.
+Reason: The process cannot terminate itself.

@@ -1,0 +1,227 @@
+{
+  "generatedAt": "2026-10-22T16:33:22.393Z",
+  "suite": "housekeeping-failure-scenarios",
+  "summary": {
+    "total": 12,
+    "passed": 9,
+    "failed": 3
+  },
+  "results": [
+    {
+      "name": "Health check: http://localhost:3201/health",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.234Z",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "method": "GET",
+      "url": "http://localhost:3201/health",
+      "response": {
+        "status": "ok",
+        "service": "reservation-service",
+        "time": "2026-10-22T16:33:22.220Z"
+      }
+    },
+    {
+      "name": "Health check: http://localhost:3202/health",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.247Z",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "method": "GET",
+      "url": "http://localhost:3202/health",
+      "response": {
+        "status": "ok",
+        "service": "room-service",
+        "time": "2026-10-22T16:33:22.241Z"
+      }
+    },
+    {
+      "name": "Health check: http://localhost:3203/health",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.255Z",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "method": "GET",
+      "url": "http://localhost:3203/health",
+      "response": {
+        "status": "ok",
+        "service": "task-service",
+        "time": "2026-10-22T16:33:22.252Z"
+      }
+    },
+    {
+      "name": "Health check: http://localhost:3204/health",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.264Z",
+      "expectedStatus": 200,
+      "actualStatus": 200,
+      "method": "GET",
+      "url": "http://localhost:3204/health",
+      "response": {
+        "status": "ok",
+        "service": "notification-service",
+        "time": "2026-10-22T16:33:22.259Z"
+      }
+    },
+    {
+      "name": "Reservation validation",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.276Z",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "method": "POST",
+      "url": "http://localhost:3201/api/v1/reservations",
+      "durationMs": 11,
+      "request": {
+        "guestName": "",
+        "roomType": "",
+        "checkInDate": "",
+        "nights": 0
+      },
+      "response": {
+        "error": "Validation failed",
+        "message": "guestName, roomType, checkInDate and nights are required."
+      }
+    },
+    {
+      "name": "Reservation idempotency conflict",
+      "status": "FAIL",
+      "timestamp": "2026-10-22T16:33:22.296Z",
+      "expectedStatus": 409,
+      "actualStatus": 409,
+      "method": "POST",
+      "url": "http://localhost:3201/api/v1/reservations",
+      "firstResponse": {
+        "message": "Reservation replayed",
+        "reservation": {
+          "id": "c1a34d5f-1825-4411-813d-cccab379ba69",
+          "guestName": "Conflict Guest",
+          "roomType": "STANDARD",
+          "checkInDate": "2026-11-15",
+          "nights": 2,
+          "status": "CONFIRMED",
+          "requestHash": "08cabf40c5d8ca5f6f181ca5a4b82c7ca307270797b50554bbef73031de97dcc",
+          "idempotencyKey": "reservation-conflict-001",
+          "roomHoldId": "b5935a66-4a32-46f7-a3c6-a85f4eeaca14",
+          "createdAt": "2026-10-22T16:21:11.566Z"
+        }
+      },
+      "secondResponse": {
+        "error": "Conflict",
+        "message": "Same idempotency key cannot be re-used with different payload."
+      }
+    },
+    {
+      "name": "Room hold validation",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.305Z",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "method": "POST",
+      "url": "http://localhost:3202/api/v1/room-holds",
+      "durationMs": 8,
+      "request": {
+        "roomType": "",
+        "reservationId": ""
+      },
+      "response": {
+        "error": "Validation failed",
+        "message": "roomType and reservationId are required."
+      }
+    },
+    {
+      "name": "Room slot capacity conflict",
+      "status": "FAIL",
+      "timestamp": "2026-10-22T16:33:22.320Z",
+      "expectedStatus": 409,
+      "actualStatus": 409,
+      "method": "POST",
+      "url": "http://localhost:3202/api/v1/cleaning-slots/reserve",
+      "firstResponse": {
+        "error": "Conflict",
+        "message": "No slots available for this shift."
+      },
+      "secondResponse": {
+        "error": "Conflict",
+        "message": "No slots available for this shift."
+      }
+    },
+    {
+      "name": "Task validation",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.327Z",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "method": "POST",
+      "url": "http://localhost:3203/api/v1/tasks",
+      "durationMs": 6,
+      "request": {
+        "reservationId": "",
+        "roomType": "",
+        "taskType": ""
+      },
+      "response": {
+        "error": "Validation failed",
+        "message": "reservationId, roomType and taskType are required."
+      }
+    },
+    {
+      "name": "Task idempotency conflict",
+      "status": "FAIL",
+      "timestamp": "2026-10-22T16:33:22.347Z",
+      "expectedStatus": 409,
+      "actualStatus": 409,
+      "method": "POST",
+      "url": "http://localhost:3203/api/v1/tasks",
+      "firstResponse": {
+        "message": "Task replayed",
+        "task": {
+          "id": "9031b256-973d-442c-ac74-12bd64837720",
+          "reservationId": "task-res-001",
+          "roomType": "STANDARD",
+          "taskType": "room-cleaning",
+          "assignedStaff": "Housekeeper Team A",
+          "status": "PENDING",
+          "idempotencyKey": "task-conflict-001",
+          "requestHash": "8eff2d24961f22a48bac0c4935e5e6372d778e67d57fbe57a9d3e5e5fd4bf21d",
+          "createdAt": "2026-10-22T16:21:11.794Z"
+        }
+      },
+      "secondResponse": {
+        "error": "Conflict",
+        "message": "Same idempotency key cannot be re-used with different payload."
+      }
+    },
+    {
+      "name": "Task lookup not found",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.358Z",
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "method": "GET",
+      "url": "http://localhost:3203/api/v1/tasks/non-existent-task-id",
+      "response": {
+        "error": "Not found",
+        "message": "Task not found."
+      }
+    },
+    {
+      "name": "Notification validation",
+      "status": "PASS",
+      "timestamp": "2026-10-22T16:33:22.367Z",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "method": "POST",
+      "url": "http://localhost:3204/api/v1/notifications",
+      "durationMs": 8,
+      "request": {
+        "taskId": "",
+        "message": ""
+      },
+      "response": {
+        "error": "Validation failed",
+        "message": "taskId and message are required."
+      }
+    }
+  ]
+}

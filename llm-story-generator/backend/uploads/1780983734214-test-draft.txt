@@ -1,0 +1,2 @@
+Once upon a test, the hero stepped into the debug forest.
+They sought the legendary bug and hoped it would be easy to fix.
